@@ -31,5 +31,7 @@
     "minami": "^1.1.1",
     "repeating": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "rd-parse": "0.0.1"
+  }
 }
