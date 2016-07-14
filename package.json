@@ -1,0 +1,35 @@
+{
+  "name": "tuneslator",
+  "version": "0.0.0",
+  "description": "JS library to translate between various text based music notation formats",
+  "main": "lib/index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir lib && jsdoc2md -l js -t jsdoc2md/README.hbs lib/*.js lib/**/*.js > README.md",
+    "prepublish": "npm run build",
+    "dev": "babel src -d lib --watch",
+    "docs": "jsdoc2md -l js -t jsdoc2md/README.hbs lib/*.js lib/**/*.js > README.md"
+  },
+  "keywords": [],
+  "author": "Damien Clarke",
+  "repository": "github:dxinteractive/tuneslator",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-esdoc": "0.0.2",
+    "grunt-jsdoc": "^1.1.0",
+    "ink-docstrap": "^1.1.1",
+    "jsdoc-babel": "^0.1.0",
+    "jsdoc-export-default-interop": "^0.3.1",
+    "jsdoc-to-markdown": "^1.3.6",
+    "minami": "^1.1.1",
+    "repeating": "^2.0.0"
+  },
+  "dependencies": {}
+}
