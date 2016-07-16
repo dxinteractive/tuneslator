@@ -10,15 +10,25 @@ export default function SeqGrammar(All, Any, Plus, Optional, Char, Capture) {
 
   return Y(function(thisGrammar) {
     // define Keppel rules
-    function Text(alphabet) { return Optional(Plus(Char(alphabet))); }
+    // function Text(alphabet) { return Optional(Plus(Char(alphabet))); }
     var whiteSpace = Plus(Char(/[ \t]/));
-    var lineComment = All(Char(/\//), Char(/\//), Text(/./));
-    var blockComment = All(Char(/`/), Text(/[^`]|\n/), Char(/`/));
     var newLine = Capture(Char(/\n/), '@newLine');
-    var fluff = Plus(Any(whiteSpace, lineComment, blockComment, newLine));
+    var fluff = Plus(Any(whiteSpace, newLine)); // lineComment, blockComment, 
     var skip = Optional(fluff);
-    var identifier = All( Char(/[a-zA-Z]/), Optional(Plus(Char(/[a-zA-Z0-9_-]/))) );
-    var freeText = All( Char(/\'/), Capture(Text(/[^\']/), 'freeText'), Char(/\'/) );
+    //var freeText = All( Char(/\'/), Capture(Text(/[^\']/), 'freeText'), Char(/\'/) );
+
+    var degree = Capture(Char(/[0-8]/), 'degree');
+    var octave = Capture(Plus(Char(/[,'"]/)), 'octave');
+    var accidental = Capture(Char(/[#b@=]/), 'accidental');
+    var velocity = Capture(Plus(Char(/[!;]/)), 'velocity');
+    var pitch = Capture(All(Optional(octave), degree, Optional(accidental), Optional(velocity)), '@pitchEnd', '@pitchStart');
+    var hold = Capture(Plus(Char(/-/)), 'hold');
+    var rest = Capture(Plus(Char(/\./)), 'rest');
+    var note = Capture(All(pitch, Optional(hold), Optional(rest)), '@noteEnd', '@noteStart');
+    var bar = Capture(Char(/[\/|]/), 'bar');
+
+    /*
+
 
     var tagName = Capture(identifier, 'tag');
     var tagAttrName = Capture(identifier, 'tagAttrName');
@@ -29,8 +39,10 @@ export default function SeqGrammar(All, Any, Plus, Optional, Char, Capture) {
     var tagClass = Capture(Plus(All(skip, Char(/\./), Capture(identifier, 'tagClass'))), '@tagClassEnd', '@tagClassStart');
     var tagHeader = All(tagName, Optional(tagAttrBlock), Optional(tagId), Optional(tagClass));
     var tagBody = All(skip, Char(/\[/), thisGrammar, Char(/\]/));
-    var tag = Capture(All(Capture(tagHeader, '@tagHeaderEnd'), Optional(tagBody)), '@tagEnd');
+    var tag = Capture(All(Capture(tagHeader, '@tagHeaderEnd'), Optional(tagBody)), '@tagEnd');*/
 
-    return Optional(Plus(Any(fluff, tag, freeText)));
+
+
+    return Optional(Plus(Any(fluff, note, bar, rest)));
   });
 }
