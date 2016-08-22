@@ -5,14 +5,3 @@
 
 JS library to translate between various text based music notation formats
 
-<a name="module_fromSeq"></a>
-
-## fromSeq ⇒ <code>array.&lt;TokenNode&gt;</code>
-Parses a tune written in Seq notation to a flat array of token nodes
-
-**Returns**: <code>array.&lt;TokenNode&gt;</code> - Array of token nodes  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| input | <code>string</code> | Input text in Seq format to parse |
-

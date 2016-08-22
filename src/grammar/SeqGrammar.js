@@ -9,22 +9,19 @@ export default function SeqGrammar(All, Any, Plus, Optional, Char, Capture) {
   }
 
   return Y(function(thisGrammar) {
-    // define Keppel rules
-    // function Text(alphabet) { return Optional(Plus(Char(alphabet))); }
     var whiteSpace = Plus(Char(/[ \t]/));
-    var newLine = Capture(Char(/\n/), '@newLine');
-    var fluff = Plus(Any(whiteSpace, newLine)); // lineComment, blockComment, 
+    var newLine = Capture(Char(/\n/), '@newline');
+    var fluff = Plus(Any(whiteSpace, newLine));
     var skip = Optional(fluff);
-    //var freeText = All( Char(/\'/), Capture(Text(/[^\']/), 'freeText'), Char(/\'/) );
 
-    var degree = Capture(Char(/[0-8]/), 'degree');
+    var degree = Capture(Char(/[1-8]/), 'degree');
     var octave = Capture(Plus(Char(/[,'"]/)), 'octave');
     var accidental = Capture(Char(/[#b@=]/), 'accidental');
     var velocity = Capture(Plus(Char(/[!;]/)), 'velocity');
-    var pitch = Capture(All(Optional(octave), degree, Optional(accidental), Optional(velocity)), '@pitchEnd', '@pitchStart');
+    var pitch = Capture(All(Optional(octave), degree, Optional(accidental), Optional(velocity)), '@pitch:end', '@pitch:start');
     var hold = Capture(Plus(Char(/-/)), 'hold');
     var rest = Capture(Plus(Char(/\./)), 'rest');
-    var note = Capture(All(pitch, Optional(hold), Optional(rest)), '@noteEnd', '@noteStart');
+    var note = Capture(All(pitch, Optional(hold), Optional(rest)), '@note:end', '@note:start');
     var bar = Capture(Char(/[\/|]/), 'bar');
 
     /*

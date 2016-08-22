@@ -32,6 +32,7 @@
     "repeating": "^2.0.0"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
     "rd-parse": "0.0.1"
   }
 }

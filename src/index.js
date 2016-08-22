@@ -1,5 +1,6 @@
 import Parser from 'rd-parse';
 import SeqGrammar from './grammar/SeqGrammar';
+import {fromJS, List} from 'immutable';
 
 function flattenLinkedList(token) {
     var tokens = [];
@@ -15,20 +16,67 @@ function flattenLinkedList(token) {
     return tokens;
 }
 
-/**
- * Parses a tune written in Seq notation to a flat array of token nodes
- *
- * @param {string} input - Input text in Seq format to parse
- * @returns {array.<TokenNode>} Array of token nodes
- * @exports fromSeq
- *
- */
+export class Tune {
+    constructor(noteList) {
+        this.data = fromJS(noteList);
+    }
 
-export function fromSeq(text) {
-    const p = new Parser(SeqGrammar);
-    return flattenLinkedList(p.parse(text)[0]);
-};
+    toTokens() {
+        // not implemented yet
+        return "?";
+    }
+
+    toJS() {
+        return this.data.toJS();
+    }
+}
+
+export class SeqTokenList {
+    constructor(seqTokenList) {
+        // put validation in here
+        this.data = fromJS(seqTokenList);
+    }
+
+    toSeq() {
+        // not implemented yet
+        return "?";
+    }
+
+    toNotes() {
+        const tune = this.data.toJS();
+
+        return new Tune(["???"]);
+    }
+
+    toJS() {
+        return this.data.toJS();
+    }
+}
+
+export class Seq {
+    constructor(seqString) {
+        this.data = seqString;
+    }
+
+    toTokens() {
+        const parser = new Parser(SeqGrammar);
+        const tokenArray = flattenLinkedList(parser.parse(this.data)[0]);
+        return new SeqTokenList(tokenArray);
+    }
+
+    toNotes() {
+        return this.toTokens().toNotes();
+    }
+
+    toJS() {
+        return this.data;
+    }
+}
+
+function fromSeq(seqString) {
+    return new Seq(seqString);
+}
 
 export default {
     fromSeq
-};
+}
